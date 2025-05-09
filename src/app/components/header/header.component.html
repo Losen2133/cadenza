@@ -1,0 +1,9 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-button slot="start" shape="round" fill="clear" (click)="openMenu()">
+      <ion-icon slot="icon-only" name="settings"></ion-icon>
+    </ion-button>
+    <ion-title slot="start">{{ title }}</ion-title>
+    <ion-searchbar (ionInput)="onSearch($event)" placeholder=""></ion-searchbar>
+  </ion-toolbar>
+</ion-header>

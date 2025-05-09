@@ -1,0 +1,19 @@
+<app-header [title]="'Streaming'" (search)="getSearchQuery($event)" (menu)="openMenu($event)"></app-header>
+
+<ion-menu menuId="second-menu" contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Streaming Settings</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    
+  </ion-content>
+</ion-menu>
+
+<div class="ion-page" id="main-content">
+  <ion-content [fullscreen]="true">
+    {{ search }}
+  </ion-content>
+</div>
+

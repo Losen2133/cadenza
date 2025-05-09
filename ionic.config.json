@@ -1,0 +1,7 @@
+{
+  "name": "cadenza",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
