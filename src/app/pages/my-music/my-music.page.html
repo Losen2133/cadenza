@@ -1,7 +1,7 @@
 
 <ion-menu menuId="first-menu" contentId="main-content">
   <ion-header>
-    <ion-toolbar>
+    <ion-toolbar style="padding-top: 32px;">
       <ion-title>My Music Settings</ion-title>
     </ion-toolbar>
   </ion-header>
@@ -10,7 +10,7 @@
   </ion-content>
 </ion-menu>
 <div class="ion-page" id="main-content">
-  <app-header [title]="'My Music'" (search)="getSearchQuery($event)" (menu)="openMenu($event)"></app-header>
+  <app-header [title]="'My Music'" (menu)="openMenu($event)"></app-header>
   <ion-content [fullscreen]="true">
     {{ search }}
   </ion-content>

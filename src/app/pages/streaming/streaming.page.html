@@ -1,19 +1,29 @@
 <ion-menu menuId="second-menu" contentId="main-content">
   <ion-header>
-    <ion-toolbar>
+    <ion-toolbar style="padding-top: 32px;">
       <ion-title>Streaming Settings</ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content class="ion-padding">
-    <ion-button (click)="loginWithSpotify()" expand="full" color="primary">
+    <ion-button *ngIf="!userprofile" (click)="loginWithSpotify()" expand="full" color="primary">
       Login with Spotify
     </ion-button>
+    <div *ngIf="userprofile" class="container">
+      <div class="row">
+        <div class="col text-center">
+          <b>Welcome</b> <br>
+          <p>{{ userprofile.display_name }}</p>
+          <img [src]="userprofile.images[0].url" width="50" height="50" alt="User Profile Image" class="rounded-circle">
+        </div>
+      </div>
+    </div>
   </ion-content>
 </ion-menu>
 <div class="ion-page" id="main-content">
-  <app-header [title]="'Streaming'" (search)="getSearchQuery($event)" (menu)="openMenu($event)"></app-header>
+  <app-header [title]="'Streaming'" (menu)="openMenu($event)"></app-header>
   <ion-content [fullscreen]="true">
     <h1 class="text-center" *ngIf="!userprofile">Login Required</h1>
+    <ion-router-outlet *ngIf="userprofile"></ion-router-outlet>
   </ion-content>
 </div>
 

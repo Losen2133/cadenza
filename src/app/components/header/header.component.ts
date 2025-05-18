@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output} from '@angular/core';
-import { IonHeader, IonTitle, IonToolbar, IonSearchbar, IonButton, IonIcon } from '@ionic/angular/standalone';
+import { IonHeader, IonTitle, IonToolbar, IonButton, IonIcon } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { settings } from 'ionicons/icons';
 
@@ -8,11 +8,10 @@ import { settings } from 'ionicons/icons';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   standalone: true,
-  imports: [IonHeader, IonTitle, IonToolbar, IonSearchbar, IonButton, IonIcon],
+  imports: [IonHeader, IonTitle, IonToolbar, IonButton, IonIcon],
 })
 export class HeaderComponent {
   @Input() title: string = '';
-  @Output() search = new EventEmitter<string>();
   @Output() menu = new EventEmitter<string>();
 
   constructor() {
@@ -26,11 +25,5 @@ export class HeaderComponent {
       this.menu.emit('second-menu');
     }
 
-  }
-
-  onSearch(event: Event) {
-    const target = event.target as HTMLInputElement;
-    const query =  target.value?.toLowerCase() || '';
-    this.search.emit(query);
   }
 }

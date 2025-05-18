@@ -1,0 +1,30 @@
+<ion-header [translucent]="true" style="padding-top: 32px;">
+  <ion-toolbar>
+    <ion-title>Tracks</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar (ionInput)="onSearchChange($event)"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" style="--padding-bottom: 80px;">
+  <ion-list>
+    <ng-container *ngFor="let track of filteredTracks">
+      <ion-item *ngIf="track.track" (click)="openInSpotify(track)">
+        <img slot="start" [src]="track.track.album.images[0]?.url" alt="Album Art" style="width: 48px; height: 48px; object-fit: cover;" />
+        <div>
+          <div>{{ track.track.name }}</div>
+          <div class="ion-text-wrap ion-text-sm" style="font-size: 0.9em; color: #aaa;">
+            {{ getArtistNames(track) }}
+          </div>
+          <div class="ion-text-wrap ion-text-sm" style="font-size: 0.85em; color: #888;">
+            Album: {{ getAlbumName(track) }} &nbsp; | &nbsp; Duration: {{ getDuration(track) }}
+          </div>
+        </div>
+      </ion-item>
+    </ng-container>
+  </ion-list>
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadTracks($event)" *ngIf="!allLoaded">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more tracks..."></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

@@ -13,7 +13,22 @@ export const routes: Routes = [
       },
       {
         path: 'streaming',
-        loadComponent: () => import('./pages/streaming/streaming.page').then( m => m.StreamingPage)
+        loadComponent: () => import('./pages/streaming/streaming.page').then( m => m.StreamingPage),
+        children: [
+          {
+            path: 'playlists',
+            loadComponent: () => import('./pages/playlists/playlists.page').then( m => m.PlaylistsPage)
+          },
+          {
+            path: 'tracks/:id',
+            loadComponent: () => import('./pages/tracks/tracks.page').then( m => m.TracksPage)
+          },
+          {
+            path: '',
+            redirectTo: 'playlists',
+            pathMatch: 'full'
+          },
+        ]
       },
       {
         path: '',
@@ -31,4 +46,5 @@ export const routes: Routes = [
     redirectTo: '/layout/my-music',
     pathMatch: 'full',
   },
+
 ];

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { Browser } from '@capacitor/browser';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ import { environment } from 'src/environments/environment';
 export class SpotifyService {
   private accessToken: string = '';
   private clientId = environment.secretEnvironment.CLIENT_ID; // Replace with your client ID
-  private redirectUri = 'http://127.0.0.1:8100/callback';   // Replace with your redirect URI
+  private redirectUri = 'cadenza://callback';   // Replace with your redirect URI
   private codeVerifier: string = '';
 
   constructor(private http: HttpClient) { }
@@ -23,9 +24,10 @@ export class SpotifyService {
     });
   }
 
-  getUserPlaylists() {
+  getUserPlaylistsWithOffset(offset: number = 0, limit: number = 20) {
     return this.http.get('https://api.spotify.com/v1/me/playlists', {
-      headers: { Authorization: `Bearer ${this.accessToken}` }
+      headers: { Authorization: `Bearer ${this.accessToken}` },
+      params: { offset: offset.toString(), limit: limit.toString() }
     });
   }
 
@@ -33,6 +35,13 @@ export class SpotifyService {
     return this.http.get(`https://api.spotify.com/v1/search`, {
       headers: { Authorization: `Bearer ${this.accessToken}` },
       params: { q: query, type: 'track' }
+    });
+  }
+
+  getPlaylistTracks(playlistId: string, offset: number = 0, limit: number = 20) {
+    return this.http.get(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+      headers: { Authorization: `Bearer ${this.accessToken}` },
+      params: { offset: offset.toString(), limit: limit.toString() }
     });
   }
 
@@ -55,11 +64,11 @@ export class SpotifyService {
 
   async startLogin() {
     this.codeVerifier = this.generateCodeVerifier();
-    localStorage.setItem('spotify_code_verifier', this.codeVerifier); // Save it!
+    localStorage.setItem('spotify_code_verifier', this.codeVerifier);
     const codeChallenge = await this.generateCodeChallenge(this.codeVerifier);
     const scope = 'user-read-private user-read-email streaming user-modify-playback-state user-read-playback-state';
     const url = `https://accounts.spotify.com/authorize?response_type=code&client_id=${this.clientId}&scope=${encodeURIComponent(scope)}&redirect_uri=${encodeURIComponent(this.redirectUri)}&code_challenge_method=S256&code_challenge=${codeChallenge}`;
-    window.location.href = url;
+    await Browser.open({ url });
   }
 
   exchangeToken(code: string) {
