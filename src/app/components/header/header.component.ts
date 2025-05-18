@@ -7,6 +7,7 @@ import { settings } from 'ionicons/icons';
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
+  standalone: true,
   imports: [IonHeader, IonTitle, IonToolbar, IonSearchbar, IonButton, IonIcon],
 })
 export class HeaderComponent {

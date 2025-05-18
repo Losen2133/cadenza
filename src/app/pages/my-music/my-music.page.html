@@ -1,4 +1,3 @@
-<app-header [title]="'My Music'" (search)="getSearchQuery($event)" (menu)="openMenu($event)"></app-header>
 
 <ion-menu menuId="first-menu" contentId="main-content">
   <ion-header>
@@ -10,8 +9,8 @@
     
   </ion-content>
 </ion-menu>
-
 <div class="ion-page" id="main-content">
+  <app-header [title]="'My Music'" (search)="getSearchQuery($event)" (menu)="openMenu($event)"></app-header>
   <ion-content [fullscreen]="true">
     {{ search }}
   </ion-content>

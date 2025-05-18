@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { LayoutPage } from './layout/layout.page';
+import { CallbackPage } from './utils/callback.page';
 
 export const routes: Routes = [
   {
@@ -20,6 +21,10 @@ export const routes: Routes = [
         pathMatch: 'full',
       },
     ]
+  },
+  {
+    path: 'callback',
+    component: CallbackPage
   },
   {
     path: '',
