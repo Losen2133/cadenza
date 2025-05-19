@@ -1,0 +1,17 @@
+.player-center-buttons {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.player-center-buttons ion-button {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  font-size: 2rem;
+}
+
+.player-center-buttons i {
+  font-size: 2.2rem;
+  vertical-align: middle;
+}

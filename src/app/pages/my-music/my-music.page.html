@@ -1,4 +1,3 @@
-
 <ion-menu menuId="first-menu" contentId="main-content">
   <ion-header>
     <ion-toolbar style="padding-top: 32px;">
@@ -12,6 +11,22 @@
 <div class="ion-page" id="main-content">
   <app-header [title]="'My Music'" (menu)="openMenu($event)"></app-header>
   <ion-content [fullscreen]="true">
-    {{ search }}
+    <ion-list>
+      <ion-item-divider color="light">
+        <ion-searchbar
+          placeholder="Search music"
+          [(ngModel)]="search"
+          (ionInput)="filterFiles()"
+          showClearButton="always">
+        </ion-searchbar>
+      </ion-item-divider>
+      <ion-item *ngFor="let file of filteredFiles" (click)="play(file)">
+        <ion-label>
+          <div>{{ file.name }}</div>
+          <small>{{ file.path }}</small>
+        </ion-label>
+      </ion-item>
+    </ion-list>
   </ion-content>
+  <app-player></app-player>
 </div>

@@ -1,0 +1,38 @@
+<ng-container *ngIf="(musicService.playbackState$ | async) as playbackState">
+  <ion-footer *ngIf="playbackState.currentTrack">
+    <ion-toolbar color="light">
+      <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+        <ion-range
+          style="width: 90%;"
+          [min]="0"
+          [max]="playbackState.duration"
+          [value]="playbackState.currentTime"
+          (ionChange)="onSeek($event)">
+        </ion-range>
+        <div style="width: 90%; display: flex; justify-content: space-between; font-size: 0.9em;">
+          <span>{{ formatTime(playbackState.currentTime) }}</span>
+          <span>{{ formatTime(playbackState.duration) }}</span>
+        </div>
+        <ion-buttons slot="primary" class="player-center-buttons">
+          <ion-button (click)="prev()" [disabled]="!musicService.canPlayPrevious()">
+            <i class="bi bi-skip-backward-fill"></i>
+          </ion-button>
+          <ion-button *ngIf="playbackState.isPlaying; else playBtn" (click)="pause()">
+            <i class="bi bi-pause-fill"></i>
+          </ion-button>
+          <ng-template #playBtn>
+            <ion-button (click)="resume()">
+              <i class="bi bi-play-fill"></i>
+            </ion-button>
+          </ng-template>
+          <ion-button (click)="stop()">
+            <i class="bi bi-stop-fill"></i>
+          </ion-button>
+          <ion-button (click)="next()" [disabled]="!musicService.canPlayNext()">
+            <i class="bi bi-skip-forward-fill"></i>
+          </ion-button>
+        </ion-buttons>
+      </div>
+    </ion-toolbar>
+  </ion-footer>
+</ng-container>
