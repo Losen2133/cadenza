@@ -5,7 +5,7 @@
     </ion-toolbar>
   </ion-header>
   <ion-content class="ion-padding">
-    
+    <!-- <ion-button (click)="clearPlaylists()">Clear Playlists</ion-button> -->
   </ion-content>
 </ion-menu>
 <div class="ion-page" id="main-content">
@@ -19,14 +19,107 @@
           (ionInput)="filterFiles()"
           showClearButton="always">
         </ion-searchbar>
+        <ion-button (click)="setPlaylistsModal(true)">Playlists</ion-button>
       </ion-item-divider>
-      <ion-item *ngFor="let file of filteredFiles" (click)="play(file)">
-        <ion-label>
+      <ion-item *ngFor="let file of filteredFiles">
+        <ion-label (click)="play(file)">
           <div>{{ file.name }}</div>
           <small>{{ file.path }}</small>
         </ion-label>
+        <ion-button *ngIf="playlistSelected" color="danger" fill="clear" slot="end" (click)="removeFromPlaylist(file)">
+          Remove
+        </ion-button>
+        <ion-button *ngIf="!playlistSelected" fill="clear" slot="end" (click)="openAddToPlaylistModal(file)">
+          Add to Playlist
+        </ion-button>
       </ion-item>
     </ion-list>
+
+    <!-- playlist picker modal -->
+    <ion-modal [isOpen]="isPlaylistsModalOpen" (didDismiss)="setPlaylistsModal(false)">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar style="padding-top: 32px;">
+            <ion-title>Playlists</ion-title>
+            <ion-buttons slot="end">
+              <ion-button (click)="setCreationModal(true)">Add</ion-button>
+              <ion-button (click)="setPlaylistsModal(false)">Close</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content>
+          <ion-list>
+            <ion-item *ngFor="let playlist of playlists">
+              <ion-label (click)="selectPlaylist(playlist)">
+                <div>{{ playlist.name }}</div>
+                <small>{{ playlist.files?.length || 0 }} tracks</small>
+              </ion-label>
+              <ion-button color="danger" fill="clear" slot="end" (click)="deletePlaylist(playlist); $event.stopPropagation()">
+                Delete
+              </ion-button>
+            </ion-item>
+          </ion-list>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+
+    <!-- playlist creation modal -->
+    <ion-modal [isOpen]="isCreationModalOpen" (didDismiss)="setCreationModal(false)">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar style="padding-top: 32px;">
+            <ion-title>Create Playlist</ion-title>
+            <ion-buttons slot="end">
+              <ion-button (click)="createPlaylist()">Confirm</ion-button>
+              <ion-button (click)="setCreationModal(false)">Close</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+          <ion-input
+            type="text"
+            label="Playlist Name: "
+            placeholder="Playlist name"
+            fill="solid"
+            (ionChange)="onPlaylistNameChange($event)"
+            [(ngModel)]="playlistName">
+          </ion-input>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+
+    <!-- Add to Playlist modal -->
+    <ion-modal [isOpen]="isAddToPlaylistModalOpen" (didDismiss)="closeAddToPlaylistModal()">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar style="padding-top: 32px;">
+            <ion-title>Add to Playlist</ion-title>
+            <ion-buttons slot="end">
+              <ion-button (click)="closeAddToPlaylistModal()">Close</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content>
+          <ion-list>
+            <ion-item *ngFor="let playlist of playlists" (click)="addFileToPlaylist(selectedFile, playlist)">
+              <ion-label>
+                <div>{{ playlist.name }}</div>
+                <small>{{ playlist.files?.length || 0 }} tracks</small>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+
+    <div *ngIf="selectedPlaylist" class="ion-padding">
+      <ion-chip color="primary">
+        <ion-label>
+          Showing playlist: {{ selectedPlaylist.name }}
+        </ion-label>
+        <i class="bi bi-x" (click)="selectNoPlaylist()" style="cursor:pointer; margin-left: 8px; font-size: 1.2em;"></i>
+      </ion-chip>
+    </div>
   </ion-content>
   <app-player></app-player>
 </div>

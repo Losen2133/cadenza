@@ -33,4 +33,8 @@ export class PreferencesService {
     await Preferences.clear();
     alert("Preferences Cleared!");
   }
+
+  async removePreference(key: string) {
+    await Preferences.remove({ key: key });
+  }
 }

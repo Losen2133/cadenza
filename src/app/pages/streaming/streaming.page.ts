@@ -6,7 +6,7 @@ import { HeaderComponent } from 'src/app/components/header/header.component';
 import { SpotifyService } from 'src/app/services/spotify.service';
 import { PreferencesService } from 'src/app/services/preferences.service';
 import { SpotifyUser } from 'src/app/models/spotify.model';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-streaming',
@@ -24,7 +24,13 @@ export class StreamingPage implements OnInit {
     private spotifyService: SpotifyService,
     private preferences: PreferencesService,
     private router: Router
-  ) { }
+  ) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd && this.router.url.includes('streaming')) {
+        this.ngOnInit();
+      }
+    });
+  }
 
   async ngOnInit() {
     // await this.preferences.clearPreferences();

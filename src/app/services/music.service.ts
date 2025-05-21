@@ -3,21 +3,9 @@ import { Filesystem, Directory, GetUriResult } from '@capacitor/filesystem';
 import { BehaviorSubject } from 'rxjs';
 import { Capacitor } from '@capacitor/core';
 import { Howl } from 'howler';
+import { AudioFile, PlaybackState } from '../models/spotify.model';
 
-export interface AudioFile {
-  path: string;
-  name: string;
-  type: string;
-  size?: number;
-  duration?: number;
-}
 
-export interface PlaybackState {
-  isPlaying: boolean;
-  currentTrack: AudioFile | null;
-  currentTime: number;
-  duration: number;
-}
 
 @Injectable({
   providedIn: 'root'

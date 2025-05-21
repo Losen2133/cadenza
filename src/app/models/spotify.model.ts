@@ -32,3 +32,23 @@ interface Explicitcontent {
   filter_enabled: boolean;
   filter_locked: boolean;
 }
+
+export interface AudioFile {
+  path: string;
+  name: string;
+  type: string;
+  size?: number;
+  duration?: number;
+}
+
+export interface PlaybackState {
+  isPlaying: boolean;
+  currentTrack: AudioFile | null;
+  currentTime: number;
+  duration: number;
+}
+
+export interface Playlist {
+  name: string;
+  files: AudioFile[];
+}
